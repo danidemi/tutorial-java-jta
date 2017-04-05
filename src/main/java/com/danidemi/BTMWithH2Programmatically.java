@@ -47,6 +47,7 @@ public class BTMWithH2Programmatically {
         conf.setResourceConfigurationFilename( getClass().getResource("/btm.properties").getFile() );
 
         BitronixTransactionManager btm = TransactionManagerServices.getTransactionManager();
+        
 
         PoolingDataSource ds = new PoolingDataSource();
         ds.setUniqueName("code");

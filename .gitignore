@@ -1,4 +1,14 @@
-.idea/
+# Transaction logs
 *.tlog
+
+# Maven
 target/
+
+# IntelliJ Idea
 *.iml
+.idea/
+
+# Eclipse
+.settings/
+.classpath
+.project
