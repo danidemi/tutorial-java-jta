@@ -3,6 +3,8 @@ package com.danidemi;
 import bitronix.tm.BitronixTransactionManager;
 import bitronix.tm.Configuration;
 import bitronix.tm.TransactionManagerServices;
+import bitronix.tm.resource.ResourceRegistrar;
+import bitronix.tm.resource.common.XAResourceProducer;
 import bitronix.tm.resource.jdbc.PoolingDataSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -14,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.UUID;
+
+import javax.sql.DataSource;
 
 import static java.lang.String.format;
 
@@ -47,20 +51,24 @@ public class BTMWithH2Programmatically {
         conf.setResourceConfigurationFilename( getClass().getResource("/btm.properties").getFile() );
 
         BitronixTransactionManager btm = TransactionManagerServices.getTransactionManager();
+        log.info("============================ {}", ResourceRegistrar.getResourcesUniqueNames());
+
+        
+        DataSource ds = (DataSource) ResourceRegistrar.get("h2");
         
 
-        PoolingDataSource ds = new PoolingDataSource();
-        ds.setUniqueName("code");
-        ds.setMaxPoolSize(10);
-        ds.setMinPoolSize(2);
-        ds.setClassName("org.h2.jdbcx.JdbcDataSource");
-        Properties driverProperties = new Properties();
-        driverProperties.setProperty("URL", format("jdbc:h2:%s\\test", FileUtils.getTempDirectory().getAbsolutePath()));
-        driverProperties.setProperty("user", "sa");
-        driverProperties.setProperty("password", "sa");
-        //driverProperties.setProperty("URL", format("jdbc:h2:%s\\test;USER=sa;PASSWORD=sa", FileUtils.getTempDirectory().getAbsolutePath()));
-        ds.setDriverProperties(driverProperties);
-        ds.init();
+//        PoolingDataSource ds = new PoolingDataSource();
+//        ds.setUniqueName("code");
+//        ds.setMaxPoolSize(10);
+//        ds.setMinPoolSize(2);
+//        ds.setClassName("org.h2.jdbcx.JdbcDataSource");
+//        Properties driverProperties = new Properties();
+//        driverProperties.setProperty("URL", format("jdbc:h2:%s\\test", FileUtils.getTempDirectory().getAbsolutePath()));
+//        driverProperties.setProperty("user", "sa");
+//        driverProperties.setProperty("password", "sa");
+//        //driverProperties.setProperty("URL", format("jdbc:h2:%s\\test;USER=sa;PASSWORD=sa", FileUtils.getTempDirectory().getAbsolutePath()));
+//        ds.setDriverProperties(driverProperties);
+//        ds.init();
 
 
         try {
